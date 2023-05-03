@@ -1,0 +1,1 @@
+print(`"${ "@rbxts/query" }" Loaded!`);
