@@ -12,6 +12,7 @@
 	],
 	"plugins": [
 		"@typescript-eslint",
+		"eslint-plugin-tsdoc",
 		"roblox-ts",
 		"prettier"
 	],
@@ -22,6 +23,7 @@
 		"plugin:prettier/recommended"
 	],
 	"rules": {
-		"prettier/prettier": "warn"
+		"prettier/prettier": "warn",
+		"tsdoc/syntax": "warn"
 	}
 }

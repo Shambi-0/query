@@ -1,1 +1,1 @@
-print(`"${ "@rbxts/query" }" Loaded!`);
+import "./qString";

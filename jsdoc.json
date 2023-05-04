@@ -1,0 +1,24 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "include": ["./src"],
+        "includePattern": "\\.(jsx|js|ts|tsx)$"
+    },
+    "plugins": [
+        "plugins/markdown",
+        "typescript"
+    ],
+    "markdown": {
+      "tags": ["load"]
+    },
+    "opts": {
+        "encoding": "utf8",
+        "destination": "docs/",
+        "recurse": true,
+        "verbose": true,
+        "template": "./"
+    },
+    "templates": {}
+}
