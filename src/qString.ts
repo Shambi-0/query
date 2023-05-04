@@ -105,6 +105,8 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 };
 
 /** 
+ * @description Chains a list of operations to be applied to this string.
+ * 
  * @this {string}
  * @returns {string}
  */
@@ -120,6 +122,8 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 };
 
 /** 
+ * @description Applies basic compression to the string, Intended to be decompressed with the `.Decompress()` method.
+ * 
  * @this {string}
  * @returns {string}
  */
@@ -134,6 +138,8 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 };
 
 /** 
+ * @description Decompresses the string, Intended to be used on strings which have had their `.Compress()` method called.
+ * 
  * @this {string}
  * @returns {string}
  */
@@ -146,6 +152,8 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 };
 
 /** 
+ * @description Sets the first character of the string to uppercase.
+ * 
  * @this {string}
  * @returns {string}
  */
@@ -154,6 +162,8 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 };
 
 /** 
+ * @description Sets the first character of the string to lowercase.
+ * 
  * @this {string}
  * @returns {string}
  */
@@ -161,7 +171,9 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
     return string.gsub(this, "^%l", string.lower)[0];
 };
 
-/** 
+/**
+ * @description Removes all whitespace characters within the string.
+ * 
  * @this {string}
  * @param {boolean} Spaces - Should spaces still be included in the result?
  * @returns {string}
@@ -176,6 +188,8 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 };
 
 /** 
+ * @description Converts the string into "Pascal" case.
+ * 
  * @this {string}
  * @returns {string}
  */
@@ -184,7 +198,6 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 };
 
 /** 
- * Converts the string into "Camel" case.
  * @description Converts the string into "Camel" case.
  * 
  * @this {string}
