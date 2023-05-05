@@ -65,8 +65,10 @@ export class qString {
      * @returns {qString & string}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public To(_: any, _self: any, Format: "Hexadecimal" | "Binary" | "None"): qString & string {
-        const Normalized: string = tostring(_self);
+    public To(... Arguments: [ "Hexadecimal" | "Binary" | "None" ]): qString & string {
+        const [, Basic, Format] = [ ... Arguments, "", "" ];
+
+        const Normalized: string = tostring(Basic);
         let Output;
 
         switch(Format) {
@@ -93,8 +95,10 @@ export class qString {
      * @returns {qString & string}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public From(_: any, _self: any, Format: "Hexadecimal" | "Binary" | "None"): qString & string {
-        const Normalized: string = tostring(_self);
+    public From(... Arguments: [ "Hexadecimal" | "Binary" | "None" ]): qString & string {
+        const [, Basic, Format] = [ ... Arguments, "", "" ];
+
+        const Normalized: string = tostring(Basic);
         let Output;
 
         switch(Format) {
@@ -122,8 +126,10 @@ export class qString {
      * {@link https://en.wikipedia.org/wiki/Whitespace_character}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public RemoveWhitespace(Spaces = false): qString & string {
-        const Normalized: string = tostring(this);
+    public RemoveWhitespace(... Arguments: [ boolean? ]): qString & string {
+        const [, Basic, Spaces = false] = [ ... Arguments, "" ];
+
+        const Normalized: string = tostring(Basic);
         let Output = "";
 
         for (const [ Codepoint ] of utf8.codes(Normalized))

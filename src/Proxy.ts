@@ -19,7 +19,7 @@ export default class qProxy {
     constructor(Reference: defined, Basic: defined, Varient: "Object" | "Datatype") {
         let Metatable: defined = {
             __index: (_: defined, Key: defined) => {
-                let Value, Instead = rawget(Reference, Key); pcall(() => Value = qRawGet(getmetatable(Basic), Key));
+                let Value, Instead = rawget(getmetatable(Reference), Key); pcall(() => Value = qRawGet(Basic, Key));
 
                 if (typeOf(Instead) === "function") {
                     const Shallow: unknown = Instead;
@@ -29,7 +29,7 @@ export default class qProxy {
                 return Value ? Value : Instead;
             },
             __newindex: (Original: unknown, Key: unknown, Value: unknown) => {
-                const A = (Original as any)[Key as any], B = rawget(Reference, Key);
+                const A = qRawGet(Original, Key), B = rawget(Reference, Key);
 
                 if ((Value !== undefined) || (((A as unknown) !== undefined) && ((A as unknown) !== B))) throw `Operation failed during \"__newindex\" call.`;
 
