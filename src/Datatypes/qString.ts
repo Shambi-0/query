@@ -1,5 +1,7 @@
 import qProxy from "../Proxy";
 
+type OperationLink = (... Arguments: any[]) => LuaTuple<any[]>;
+
 const Whitespaces: number[] = [
 	9, // Horizontal Tab
 	10, // Line Feed
@@ -36,6 +38,8 @@ const Whitespaces: number[] = [
 	8288, // Word Joiner
 	65279 // Zero Width Non-Breaking Space
 ];
+
+const C = (Basic: string) => { return new qString(Basic) as qString & string };
 
 const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer)[2])): string => {
     const Bits: number[] = [];
@@ -85,7 +89,7 @@ export class qString {
                 break;
         };
 
-        return new qString(Output as string) as qString & string;
+        return C(Output);
     };
 
     /**
@@ -115,7 +119,7 @@ export class qString {
                 break;
         };
 
-        return new qString(Output as string) as qString & string;
+        return C(Output);
     };
 
     /**
@@ -135,6 +139,122 @@ export class qString {
         for (const [ Codepoint ] of utf8.codes(Normalized))
             if (Whitespaces.includes(Codepoint) && (Spaces ? (Codepoint !== 32) : true)) Output += utf8.char(Codepoint);
 
-        return new qString(Output as string) as qString & string;
+        return C(Output);
+    };
+
+    /** 
+     * @hidden
+     * @description Chains a list of operations to be applied to this string in-order.
+     *
+     * @this {string}
+     * @param {OperationLink} Operation The string method you want to create a chain of.
+     * @param {unknown[]} Inital Inital arguments that are passed into the first operation.
+     * @param {... any[]} Arguments Array of additional arguments which are passed in-order through the chained operation.
+     * @returns {string} The resulting string after all the operations are complete.
+     * {@link https://www.npmjs.com/package/@rbxts/query}
+     */
+    public Chain(... Arguments: [ OperationLink, unknown[], ... any[] ]): LuaTuple<unknown[]> {
+        const [, Basic, Operation, Inital, ... Additional] = [ ... Arguments ];
+
+        let Output: LuaTuple<unknown[]> = Operation(Basic, ... Inital);
+    
+        Additional.map((Value: unknown[]) => {
+            Output = Operation(Output[0], ... Value);
+            return Value;
+        });
+
+        return Output;
+    };
+
+    /** 
+     * @description Applies basic compression to the string, Intended to be decompressed with the `.Decompress()` method.
+     * 
+     * @this {qString & string} The string that will be compressed.
+     * @returns {qString & string} The compressed string.
+     * {@link https://www.npmjs.com/package/@rbxts/query}
+     */
+    public Compress(... Arguments: []): qString & string {
+        const [, Basic] = [ ... Arguments, "", "" as qString & string ];
+
+        return C(Basic.Chain(string.gsub,
+            [".", "\0%0%0"],
+            ["(.)%z%1", "%1"],
+            ["%z.(%Z+)",
+                (Chunck: string) => (Chunck.size() > 4) ? string.format("\129%s%s\254", string.sub(Chunck, 1, 1), Chunck.size()) : Chunck
+            ]
+        )[0] as string);
+    };
+
+    /** 
+     * @description Decompresses the string, Intended to be used on strings which have had their `.Compress()` method called.
+     * 
+     * @this {qString & string}
+     * @returns {qString & string}
+     * {@link https://www.npmjs.com/package/@rbxts/query}
+     */
+    public Decompress(... Arguments: []): qString & string {
+        const [, Basic] = [ ... Arguments, "", "" as qString & string ];
+
+        return C(string.gsub(Basic, "\129.%d+\254", (Chunck: string) => {
+            const Section: string = string.sub(Chunck, 2, -2);
+
+            return string.rep(string.sub(Section, 1, 1), tonumber(string.sub(Section, 2, -1)) as number);
+        })[0]);
+    };
+
+    
+    /** 
+     * @description Sets the first character of the string to uppercase.
+     * 
+     * @this {qString & string}
+     * @returns {qString & string}
+     * {@link https://www.npmjs.com/package/@rbxts/query}
+     */
+    public LeadingUppercase(... Arguments: []): qString & string {
+        const [, Basic] = [ ... Arguments, "", "" as qString & string ];
+
+        return C(string.gsub(Basic, "^%l", string.upper)[0]);
+    };
+
+    /** 
+     * @description Sets the first character of the string to lowercase.
+     * 
+     * @this {qString & string}
+     * @returns {qString & string}
+     * {@link https://www.npmjs.com/package/@rbxts/query}
+     */
+    public LeadingLowercase(... Arguments: []): qString & string {
+        const [, Basic] = [ ... Arguments, "", "" as qString & string ];
+
+        return C(string.gsub(Basic, "^%l", string.lower)[0]);
+    };
+
+    /** 
+     * @description Converts the string into "Pascal" case. (Aka: "Upper" "Camel" case)
+     * 
+     * @this {qString & string}
+     * @returns {qString & string}
+     * {@link https://www.npmjs.com/package/@rbxts/query}
+     * {@link https://en.wikipedia.org/wiki/Camel_case}
+     * {@link https://en.wikipedia.org/wiki/Pascal_(programming_language)}
+     */
+    public Pascal(... Arguments: []): qString & string {
+        const [, Basic] = [ ... Arguments, "", "" as qString & string ];
+
+        return C(string.gsub(string.lower(Basic), "%w+", (Chunk: string) => C(Chunk).LeadingUppercase())[0]);
+    };
+
+    /** 
+     * @description Converts the string into "Camel" case.
+     * 
+     * @this {qString & string}
+     * @returns {qString & string}
+     * {@link https://www.npmjs.com/package/@rbxts/query}
+     * {@link https://en.wikipedia.org/wiki/Camel_case}
+     */
+    public Camel(... Arguments: []): qString & string {
+        const [, Basic] = [ ... Arguments, "", "" as qString & string ];
+
+        return this.Pascal().LeadingLowercase();
     };
 };

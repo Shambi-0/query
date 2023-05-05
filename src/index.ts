@@ -46,7 +46,3 @@ const Default: Extended = ((Input: defined) => {
  * @returns {Type}
  */
 export default Default;
-
-const Example = Default("Hello, World!")
-
-Example.To("Hexadecimal");

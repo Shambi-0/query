@@ -21,11 +21,13 @@ export class qNumber {
      * {@link https://en.wikipedia.org/wiki/Cantor_function}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public Cantor2(_: any, Y: number): qNumber & number {
-        const Z: number = (this as unknown as number) + Y;
+    public Cantor2(... Arguments: [ number ]): qNumber & number {
+        const [, Basic, Y] = [ ... Arguments, 0, 0 ];
 
-        return C(((Z + 1) * Z) / 2 + (this as unknown as number));
-    }
+        const Z: number = Basic + Y;
+
+        return C(((Z + 1) * Z) / 2 + Basic);
+    };
 
     /**
      * @description Inverse for numbers which have been passed through a Cantor2 function.
@@ -34,8 +36,10 @@ export class qNumber {
      * {@link https://en.wikipedia.org/wiki/Cantor_function}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public InverseCantor2(): LuaTuple<(qNumber & number)[]> {
-        const Normalized = tonumber(tostring(this)) as number;
+    public InverseCantor2(... Arguments: []): LuaTuple<(qNumber & number)[]> {
+        const [, Basic] = [ ... Arguments, 0, 0 ];
+
+        const Normalized = tonumber(tostring(Basic)) as number;
 
         const W: number = math.floor((math.sqrt(8 * Normalized + 1) - 1) / 2);
         const X: number = Normalized - ((math.pow(W, 2) + W) / 2);
@@ -50,9 +54,11 @@ export class qNumber {
      * @returns {string}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public DecimalToBits(_: any, Padding?: number): qString & string {
+    public DecimalToBits(... Arguments: [ number? ]): qString & string {
+        let [, Basic, Padding] = [ ... Arguments, 0, 0 ];
+
         const Bits: number[] = [];
-        let Integer = tonumber(tostring(this)) as number;
+        let Integer = tonumber(tostring(Basic)) as number;
 
         if (!Padding) Padding = math.max(1, math.frexp(Integer)[2]);
     
