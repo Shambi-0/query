@@ -154,7 +154,7 @@ export class qString {
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
     public Chain(... Arguments: [ OperationLink, unknown[], ... any[] ]): LuaTuple<unknown[]> {
-        const [, Basic, Operation, Inital, ... Additional] = [ ... Arguments ];
+        const [, Basic, Operation, Inital, Additional] = [ ... Arguments ];
 
         let Output: LuaTuple<unknown[]> = Operation(Basic, ... Inital);
     
