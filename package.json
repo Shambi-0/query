@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/query",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A JQuery-like system for roblox-ts.",
   "main": "out/init.lua",
   "homepage": "https://github.com/Shambi-0/query/blob/main/README.md",
