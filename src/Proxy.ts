@@ -19,7 +19,7 @@ export default class qProxy {
     constructor(Reference: defined, Basic: defined, Varient: "Object" | "Datatype") {
         let Metatable: defined = {
             __index: (_: defined, Key: defined) => {
-                let Value, Instead = rawget(Reference, Key); pcall(() => Value = qRawGet(Basic, Key));
+                let Value, Instead = rawget(Reference, Key); pcall(() => Value = qRawGet(getmetatable(Basic), Key));
 
                 if (typeOf(Instead) === "function") {
                     const Shallow: unknown = Instead;
