@@ -1,8 +1,11 @@
 import qProxy from "../Proxy";
+import { qString } from "./qString";
+
+const C = (Basic: number) => { return new qNumber(Basic) as qNumber & number };
 
 export class qNumber {
     constructor(Basic: number) {
-        const Proxied = new qProxy(this, Basic)
+        const Proxied = new qProxy(this, Basic, "Datatype")
         
         return Proxied.Arthmetic(Basic).Logistic(Basic).Extend({
             __metatable: Basic,
@@ -18,10 +21,10 @@ export class qNumber {
      * {@link https://en.wikipedia.org/wiki/Cantor_function}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public Cantor2(Y: number): qNumber {
+    public Cantor2(Y: number): qNumber & number {
         const Z: number = (this as unknown as number) + Y;
 
-        return new qNumber(((Z + 1) * Z) / 2 + (this as unknown as number));
+        return C(((Z + 1) * Z) / 2 + (this as unknown as number));
     }
 
     /**
@@ -31,12 +34,14 @@ export class qNumber {
      * {@link https://en.wikipedia.org/wiki/Cantor_function}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public InverseCantor2(): LuaTuple<number[]> {
-        const W: number = math.floor((math.sqrt(8 * (this as unknown as number) + 1) - 1) / 2);
-        const X: number = (this as unknown as number) - ((math.pow(W, 2) + W) / 2);
+    public InverseCantor2(): LuaTuple<(qNumber & number)[]> {
+        const Normalized = tonumber(tostring(this)) as number;
 
-        return $tuple(X, W - X);
-    }
+        const W: number = math.floor((math.sqrt(8 * Normalized + 1) - 1) / 2);
+        const X: number = Normalized - ((math.pow(W, 2) + W) / 2);
+
+        return $tuple(C(X), C(W - X));
+    };
 
     /**
      * @description Converts the given number into raw binary in the form of a string.
@@ -45,7 +50,7 @@ export class qNumber {
      * @returns {string}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public DecimalToBits(Padding?: number): string {
+    public DecimalToBits(Padding?: number): qString & string {
         const Bits: number[] = [];
         let Integer = tonumber(tostring(this)) as number;
 
@@ -56,6 +61,6 @@ export class qNumber {
             Integer = math.floor((Integer - Bits[Bit]) / 2);
         };
     
-        return Bits.join();
+        return new qString(Bits.join()) as qString & string;
     };
 };

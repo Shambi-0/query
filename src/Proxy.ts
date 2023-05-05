@@ -1,3 +1,5 @@
+import { qRawGet, qRawSet } from "./Indexer";
+
 /**
  * @description Flattens the provided function slightly.
  */
@@ -14,10 +16,10 @@ export default class qProxy {
      * @param {any} Basic Basic instance/datatype the "Reference" represents.
      * @returns {qProxy} The proxied iteration of the provided "Reference".
      */
-    constructor(Reference: defined, Basic: defined) {
+    constructor(Reference: defined, Basic: defined, Varient: "Object" | "Datatype") {
         let Metatable: defined = {
             __index: (_: defined, Key: defined) => {
-                let Value, Instead = rawget(Reference, Key); pcall(() => Value = (Basic as any)[Key as any]);
+                let Value, Instead = rawget(Reference, Key); pcall(() => Value = qRawGet(Basic, Key));
 
                 if (typeOf(Instead) === "function") {
                     const Shallow: unknown = Instead;
@@ -31,7 +33,7 @@ export default class qProxy {
 
                 if ((Value !== undefined) || (((A as unknown) !== undefined) && ((A as unknown) !== B))) throw `Operation failed during \"__newindex\" call.`;
 
-                pcall(() => (Basic as any)[Key as any] = Value);
+                pcall(() => qRawSet(Basic, Key, Value));
             }
         };
 

@@ -50,7 +50,7 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 
 export class qString {
     constructor(Basic: string) {
-        const Proxied = new qProxy(this, Basic)
+        const Proxied = new qProxy(this, Basic, "Datatype")
         
         return Proxied.Logistic(Basic).Extend({
             __metatable: Basic,
@@ -79,7 +79,8 @@ export class qString {
                 break;
 
             default:
-                Output = this;
+                Output = Normalized;
+                break;
         };
 
         return new qString(Output as string) as qString & string;
@@ -106,7 +107,8 @@ export class qString {
                 break;
 
             default:
-                Output = this;
+                Output = Normalized;
+                break;
         };
 
         return new qString(Output as string) as qString & string;

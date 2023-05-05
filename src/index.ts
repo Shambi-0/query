@@ -33,6 +33,7 @@ const Default: Extended = ((Input: defined) => {
 
         default:
             Output = Input;
+            break;
     };
 
     return Output as defined;
