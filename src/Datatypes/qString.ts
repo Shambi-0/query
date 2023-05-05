@@ -153,13 +153,13 @@ export class qString {
      * @returns {string} The resulting string after all the operations are complete.
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public Chain(... Arguments: [ OperationLink, unknown[], ... any[] ]): LuaTuple<unknown[]> {
+    public Chain(... Arguments: [ OperationLink, unknown[], ... unknown[] ]): LuaTuple<unknown[]> {
         const [, Basic, Operation, Inital, Additional] = [ ... Arguments ];
 
-        let Output: LuaTuple<unknown[]> = Operation(Basic, ... Inital);
+        let Output: LuaTuple<unknown[]> = (Operation as OperationLink)(Basic, ... Inital as unknown[]);
     
-        Additional.map((Value: unknown[]) => {
-            Output = Operation(Output[0], ... Value);
+        (Additional as unknown[][]).map((Value: unknown[]) => {
+            Output = (Operation as OperationLink)(Output[0], ... Value);
             return Value;
         });
 
