@@ -21,7 +21,7 @@ export class qNumber {
      * {@link https://en.wikipedia.org/wiki/Cantor_function}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public Cantor2(Y: number): qNumber & number {
+    public Cantor2(_: any, Y: number): qNumber & number {
         const Z: number = (this as unknown as number) + Y;
 
         return C(((Z + 1) * Z) / 2 + (this as unknown as number));
@@ -50,7 +50,7 @@ export class qNumber {
      * @returns {string}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public DecimalToBits(Padding?: number): qString & string {
+    public DecimalToBits(_: any, Padding?: number): qString & string {
         const Bits: number[] = [];
         let Integer = tonumber(tostring(this)) as number;
 

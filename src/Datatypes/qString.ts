@@ -65,8 +65,8 @@ export class qString {
      * @returns {qString & string}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public To(Format: "Hexadecimal" | "Binary" | "None"): qString & string {
-        const Normalized: string = tostring(this);
+    public To(_: any, _self: any, Format: "Hexadecimal" | "Binary" | "None"): qString & string {
+        const Normalized: string = tostring(_self);
         let Output;
 
         switch(Format) {
@@ -93,8 +93,8 @@ export class qString {
      * @returns {qString & string}
      * {@link https://www.npmjs.com/package/@rbxts/query}
      */
-    public From(Format: "Hexadecimal" | "Binary" | "None"): qString & string {
-        const Normalized: string = tostring(this);
+    public From(_: any, _self: any, Format: "Hexadecimal" | "Binary" | "None"): qString & string {
+        const Normalized: string = tostring(_self);
         let Output;
 
         switch(Format) {
