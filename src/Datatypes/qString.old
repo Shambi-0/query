@@ -108,7 +108,8 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
  * @description Chains a list of operations to be applied to this string.
  * 
  * @this {string}
- * @returns {string}
+ * @param {OperationLink} Operation The string method you want to create a chain of.
+ * @returns {string} The resulting string after all the operations are complete.
  */
 (string as unknown as String).Chain = function(Operation: OperationLink, Inital: unknown[], ...Arguments: any[]): LuaTuple<unknown[]> {
     let Output: LuaTuple<unknown[]> = Operation(this, ... Inital);
@@ -198,6 +199,7 @@ const DecimalToBits = (Integer: number, Padding = math.max(1, math.frexp(Integer
 };
 
 /** 
+ * Converts the string into "Camel" case.
  * @description Converts the string into "Camel" case.
  * 
  * @this {string}
