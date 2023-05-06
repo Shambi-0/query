@@ -1,24 +1,16 @@
-/*
-import "./qString";
-
-const Testing = "Hello, World!";
-
-Testing.Compress().Decompress(); // Example of string (de)compression! :D
-
-Testing.RemoveWhitespace() // Removes whitespace!
-
-Testing.Camel().Pascal() // Changes the casing of the string 👀
-
-Testing.ToHexadecimal() // Example of encoding formats! 👀
-*/
-
 import { qNumber } from "./Datatypes/qNumber";
 import { qString } from "./Datatypes/qString";
 
 type Extended =
     ((arg0: number) => (qNumber & number)) & // String[s]
-    ((arg0: string) => (qString & number)); // Number[s]
+    ((arg0: string) => (qString & string)); // Number[s]
 
+/**
+ * @description Provides an "extended" version of whatever instance or datatype you pass-through it.
+ * 
+ * @param {Type} Input The original datatype which you intend to query or extend.
+ * @returns {Type} The extended
+ */
 const Default: Extended = ((Input: defined) => {
     let Output;
 
@@ -39,10 +31,4 @@ const Default: Extended = ((Input: defined) => {
     return Output as defined;
 }) as unknown as Extended;
 
-/**
- * Provides an "extended" version of whatever instance or datatype you pass-through it.
- * 
- * @param {Type} Input The original datatype which you intend to query or extend.
- * @returns {Type}
- */
 export default Default;
