@@ -1,3 +1,4 @@
+import { qNumber } from "./Datatypes/qNumber";
 import { qRawGet, qRawSet } from "./Indexer";
 
 /**
@@ -59,16 +60,18 @@ export default class qProxy {
      * @returns {qProxy} The newly generated metatable, representing the modified proxy.
      */
     public Arthmetic(Of: unknown) {
+        const R = (Result: number) => new qNumber(Result);
+
         this.Extend({
             // Negate
-            __unm: () => -(Of as number),
+            __unm: () => R(-(Of as number)),
 
-            __add: F((Value: unknown) => (Of as number) + (Value as number)),
-            __sub: F((Value: unknown) => (Of as number) - (Value as number)),
-            __mul: F((Value: unknown) => (Of as number) * (Value as number)),
-            __div: F((Value: unknown) => (Of as number) / (Value as number)),
-            __mod: F((Value: unknown) => (Of as number) % (Value as number)),
-            __pow: F((Value: unknown) => math.pow((Of as number), (Value as number)))
+            __add: F((Value: unknown) => R((Of as number) + (Value as number))),
+            __sub: F((Value: unknown) => R((Of as number) - (Value as number))),
+            __mul: F((Value: unknown) => R((Of as number) * (Value as number))),
+            __div: F((Value: unknown) => R((Of as number) / (Value as number))),
+            __mod: F((Value: unknown) => R((Of as number) % (Value as number))),
+            __pow: F((Value: unknown) => R(math.pow((Of as number), (Value as number))))
         });
         return this;
     };

@@ -7,7 +7,7 @@ const F = (Callback: unknown) => (_: unknown, ... Arguments: unknown[]) => (Call
 
 export class qHumanoid {
     constructor(Basic: Humanoid) {
-        const Proxied = new qProxy(this, Basic, "Datatype")
+        const Proxied = new qProxy(this, Basic, "Object")
         
         return Proxied.Logistic(Basic).Extend({
 
