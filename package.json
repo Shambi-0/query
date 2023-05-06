@@ -50,5 +50,8 @@
   ],
   "bugs": {
     "url": "https://github.com/Shambi-0/query/issues"
+  },
+  "dependencies": {
+    "@rbxts/soundtrack": "^1.0.4"
   }
 }
